@@ -6,15 +6,18 @@
     <title>EduEcho - 专业课堂反馈生成器</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
     <script type="importmap">
     {
         "imports": {
             "react": "https://esm.sh/react@18.2.0",
-            "react-dom": "https://esm.sh/react-dom@18.2.0/client"
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client"
         }
     }
     </script>
+    
     <style>
         body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background-color: #f8fafc; }
     </style>
@@ -24,7 +27,7 @@
 
     <script type="text/babel">
         import React, { useState } from 'react';
-        import { createRoot } from 'react-dom';
+        import { createRoot } from 'react-dom/client';
 
         function App() {
             const [input, setInput] = useState('');
@@ -32,36 +35,55 @@
             const [loading, setLoading] = useState(false);
 
             const handleGenerate = () => {
+                if (!input) return;
                 setLoading(true);
+                // 模拟 AI 生成过程
                 setTimeout(() => {
-                    setResult("已生成反馈：教学表现优秀，互动积极。");
+                    setResult(`【生成成功】针对您的内容：\n"${input}"\n\n建议从学生互动和知识点复习两个维度加强反馈。`);
                     setLoading(false);
                 }, 1000);
             };
 
             return (
-                <div className="min-h-screen p-8 flex flex-col items-center">
-                    <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
-                        <h1 className="text-3xl font-bold text-center mb-6">EduEcho</h1>
-                        <textarea 
-                            className="w-full h-40 p-4 border rounded-xl mb-4"
-                            placeholder="输入内容..."
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                        />
-                        <button 
-                            onClick={handleGenerate}
-                            className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold"
-                        >
-                            {loading ? '处理中...' : '生成反馈'}
-                        </button>
-                        {result && <div className="mt-6 p-4 bg-blue-50 rounded-lg text-blue-800">{result}</div>}
+                <div className="min-h-screen p-4 md:p-8 flex flex-col items-center">
+                    <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                        <header className="mb-8 text-center">
+                            <h1 className="text-3xl font-bold text-slate-800">EduEcho</h1>
+                            <p className="text-slate-500 mt-2">专业课堂反馈智能生成系统</p>
+                        </header>
+
+                        <div className="space-y-4">
+                            <textarea 
+                                className="w-full h-40 p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-slate-700"
+                                placeholder="请输入课堂记录或学生表现..."
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                            />
+                            
+                            <button 
+                                onClick={handleGenerate}
+                                disabled={loading || !input}
+                                className={`w-full py-4 rounded-xl font-bold text-white transition-all ${
+                                    loading || !input ? 'bg-slate-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 shadow-lg'
+                                }`}
+                            >
+                                {loading ? '生成中...' : '立即生成专业反馈'}
+                            </button>
+                        </div>
+
+                        {result && (
+                            <div className="mt-8 p-6 bg-blue-50 border border-blue-100 rounded-xl animate-in fade-in duration-500">
+                                <h3 className="font-bold text-blue-800 mb-2">生成结果：</h3>
+                                <pre className="whitespace-pre-wrap text-slate-700 leading-relaxed text-sm md:text-base">{result}</pre>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
         }
 
-        const root = createRoot(document.getElementById('root'));
+        const container = document.getElementById('root');
+        const root = createRoot(container);
         root.render(<App />);
     </script>
 </body>
