@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
     <script type="importmap">
     {
         "imports": {
@@ -36,7 +37,7 @@
                 if (!input) return;
                 setLoading(true);
                 setTimeout(() => {
-                    setResult(`生成成功！针对内容：\n"${input}"\n\n反馈建议：课堂互动良好，建议增加总结环节。`);
+                    setResult(`【课堂反馈成功生成】\n内容：${input}\n\n建议：表现优异，请继续保持当前的互动频率。`);
                     setLoading(false);
                 }, 800);
             };
@@ -44,31 +45,22 @@
             return (
                 <div className="min-h-screen p-8 flex flex-col items-center">
                     <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
-                        <h1 className="text-3xl font-bold text-center text-slate-800 mb-2">EduEcho</h1>
+                        <h1 className="text-3xl font-bold text-center text-slate-800">EduEcho</h1>
                         <p className="text-center text-slate-500 mb-8">专业课堂反馈智能生成系统</p>
-                        
                         <textarea 
-                            className="w-full h-40 p-4 border border-slate-200 rounded-xl mb-4 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="请输入课堂表现..."
+                            className="w-full h-40 p-4 border border-slate-200 rounded-xl mb-4 outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="输入课堂表现记录..."
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                         />
-                        
                         <button 
                             onClick={handleGenerate}
-                            className={`w-full py-4 rounded-xl font-bold text-white transition ${
-                                !input || loading ? 'bg-slate-300' : 'bg-blue-600 hover:bg-blue-700'
-                            }`}
+                            className={`w-full py-4 rounded-xl font-bold text-white transition ${!input || loading ? 'bg-slate-300' : 'bg-blue-600 hover:bg-blue-700'}`}
                             disabled={!input || loading}
                         >
-                            {loading ? '生成中...' : '立即生成'}
+                            {loading ? '生成中...' : '立即生成专业反馈'}
                         </button>
-
-                        {result && (
-                            <div className="mt-8 p-6 bg-blue-50 border border-blue-100 rounded-xl text-slate-700 whitespace-pre-wrap">
-                                {result}
-                            </div>
-                        )}
+                        {result && <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl text-slate-700 whitespace-pre-wrap">{result}</div>}
                     </div>
                 </div>
             );
