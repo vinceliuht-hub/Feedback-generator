@@ -1,0 +1,5 @@
+{
+  "name": "EduEcho - 专业课堂反馈生成器",
+  "description": "一款专为英语老师设计的课堂反馈工具，能够根据课堂表现和笔记，利用AI生成专业、亲切且结构化的家长沟通反馈。",
+  "requestFramePermissions": []
+}
